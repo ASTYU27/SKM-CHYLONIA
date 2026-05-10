@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0066CC">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="SKM">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="style.css">
+  <title>Rozkład SKM</title>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+
+      <!-- Przełącznik dnia -->
+      <div class="day-switcher">
+        <button class="day-nav" id="day-prev" aria-label="Poprzedni dzień" disabled>‹</button>
+        <div class="day-center">
+          <span id="day-label">Dziś</span>
+          <span id="day-type" class="day-type">dzień roboczy</span>
+        </div>
+        <button class="day-nav" id="day-next" aria-label="Następny dzień">›</button>
+      </div>
+
+      <!-- Godzina + filtr linii -->
+      <div class="controls-row">
+        <div class="time-control">
+          <button class="time-btn" id="time-btn" aria-label="Zmień godzinę">
+            <span id="time-display">--:--</span>
+            <span id="live-indicator" class="live-dot"></span>
+            <svg class="time-edit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+            </svg>
+          </button>
+          <!-- Input poza przyciskiem — showPicker() otwiera go programowo -->
+          <input type="time" id="time-input" class="time-input-hidden" aria-label="Wybierz godzinę">
+          <button class="time-reset" id="time-reset" hidden aria-label="Wróć do aktualnej godziny">
+            ↺&nbsp;teraz
+          </button>
+        </div>
+
+        <div class="filter-chips">
+          <button class="filter-chip active" data-line="SKM">SKM</button>
+          <button class="filter-chip active" data-line="PR">PR</button>
+        </div>
+      </div>
+
+    </header>
+
+    <main id="routes" class="routes"></main>
+
+    <footer class="footer">
+      <p>Rozkład orientacyjny · <a href="https://skm.pkp.pl" target="_blank" rel="noopener noreferrer">skm.pkp.pl</a></p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

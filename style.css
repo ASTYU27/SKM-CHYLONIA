@@ -1,0 +1,486 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #f5f5f3;
+  --surface: #ffffff;
+  --border: rgba(0, 0, 0, 0.08);
+  --text: #1a1a1a;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+  --accent: #0066CC;
+  --accent-bg: #E6F1FB;
+  --pr: #7B3F00;
+  --pr-bg: #FEF0E0;
+  --gym: #27500A;
+  --gym-bg: #EAF3DE;
+  --success: #097c2c;
+  --success-bg: #d4f0dc;
+  --warning: #92500a;
+  --warning-bg: #faecd1;
+  --danger: #b3261e;
+  --danger-bg: #fcdcd9;
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111111;
+    --surface: #1e1e1e;
+    --border: rgba(255, 255, 255, 0.09);
+    --text: #f0f0f0;
+    --text-secondary: #9a9a9a;
+    --text-tertiary: #606060;
+    --accent: #4d9eff;
+    --accent-bg: rgba(77, 158, 255, 0.14);
+    --pr: #F5A623;
+    --pr-bg: rgba(245, 166, 35, 0.14);
+    --gym: #97c459;
+    --gym-bg: rgba(151, 196, 89, 0.14);
+    --success: #6ed286;
+    --success-bg: rgba(110, 210, 134, 0.14);
+    --warning: #f0b860;
+    --warning-bg: rgba(240, 184, 96, 0.14);
+    --danger: #f08e8e;
+    --danger-bg: rgba(240, 142, 142, 0.14);
+  }
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100dvh;
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+}
+
+.app {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem 1rem 0;
+}
+
+/* ── Header ── */
+
+.header {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── Day switcher ── */
+
+.day-switcher {
+  display: flex;
+  align-items: stretch;
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.day-nav {
+  font-family: inherit;
+  font-size: 22px;
+  width: 46px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.day-nav:hover:not(:disabled) { background: var(--accent-bg); color: var(--accent); }
+.day-nav:disabled              { color: var(--border); cursor: default; }
+
+.day-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 4px;
+  border-left: 0.5px solid var(--border);
+  border-right: 0.5px solid var(--border);
+}
+
+#day-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.day-type {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  line-height: 1.3;
+}
+
+/* ── Controls row (time + filter) ── */
+
+.controls-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ── Time control ── */
+
+.time-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+/* Duży przycisk z godziną — łatwy do kliknięcia na telefonie */
+.time-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  min-height: 52px;
+  min-width: 110px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.time-btn:hover  { border-color: var(--accent); background: var(--accent-bg); }
+.time-btn:active { background: var(--accent-bg); }
+
+#time-display {
+  font-size: 24px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+/* Niebieski = godzina ustawiona ręcznie */
+#time-display.manual { color: var(--accent); }
+
+.time-edit-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+/* Input poza ekranem — otwierany przez showPicker() */
+.time-input-hidden {
+  position: fixed;
+  top: -200px;
+  left: -200px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  font-size: 16px; /* zapobiega zoom na iOS */
+}
+
+/* Pulsująca zielona kropka — tryb live */
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success);
+  flex-shrink: 0;
+  animation: live-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes live-pulse {
+  0%, 100% { opacity: 1;   transform: scale(1);   }
+  50%       { opacity: 0.4; transform: scale(0.75); }
+}
+
+/* Niebieska kropka — tryb planowania */
+.manual-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+/* Przycisk resetu */
+.time-reset {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--bg);
+  border: 0.5px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.time-reset:hover { color: var(--text); border-color: var(--text-tertiary); }
+
+/* ── Filter chips ── */
+
+.filter-chips {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.filter-chip {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.3px;
+}
+
+.filter-chip:hover { color: var(--text-secondary); border-color: var(--text-tertiary); }
+
+.filter-chip.active[data-line="SKM"] { background: var(--accent-bg); color: var(--accent); border-color: var(--accent); }
+.filter-chip.active[data-line="PR"]  { background: var(--pr-bg);     color: var(--pr);     border-color: var(--pr);     }
+
+/* ── Route cards ── */
+
+.routes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.route-card {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+}
+
+.route-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.route-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.route-icon svg { width: 19px; height: 19px; }
+
+.icon-home { background: var(--accent-bg); color: var(--accent); }
+.icon-gym  { background: var(--gym-bg);    color: var(--gym);    }
+
+.route-info { flex: 1; min-width: 0; }
+
+.route-info h2 {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 1px;
+}
+
+.route-info p {
+  font-size: 12px;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-jd {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-family: inherit;
+  color: var(--text-tertiary);
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 3px 0;
+  transition: color 0.15s;
+}
+
+.btn-jd:hover { color: var(--accent); }
+
+/* ── Departures list ── */
+
+.departures {
+  border-top: 0.5px solid var(--border);
+  padding-top: 4px;
+}
+
+.departure {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 0.5px solid var(--border);
+  gap: 10px;
+}
+
+.departure:last-child { border-bottom: none; padding-bottom: 2px; }
+.departure.first      { align-items: flex-start; }
+
+/* ── Departure internals ── */
+
+.dep-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.line-badge {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.4px;
+  margin-top: 3px;
+}
+
+.departure.first .line-badge { font-size: 11px; padding: 3px 9px; margin-top: 6px; }
+
+.line-SKM    { background: var(--accent-bg); color: var(--accent); }
+.line-PR     { background: var(--pr-bg);     color: var(--pr);     }
+.line-SKM-PR { background: var(--gym-bg);    color: var(--gym);    }
+
+.dep-journey { flex: 1; min-width: 0; }
+
+.dep-times-row {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.dep-time {
+  font-size: 18px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.departure.first .dep-time { font-size: 26px; font-weight: 700; }
+
+.dep-sep { font-size: 14px; color: var(--text-tertiary); }
+
+.dep-arrival {
+  font-size: 18px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.departure.first .dep-arrival { font-size: 26px; font-weight: 600; }
+
+.dep-dot     { font-size: 12px; color: var(--text-tertiary); }
+
+.dep-duration { font-size: 13px; color: var(--text-secondary); }
+.departure.first .dep-duration { font-size: 14px; }
+
+/* ── Transfer info ── */
+
+.dep-transfer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: var(--bg);
+  border-radius: 6px;
+  padding: 5px 9px;
+}
+
+.dep-transfer .t-seg { white-space: nowrap; }
+.dep-transfer .t-dot { color: var(--text-tertiary); }
+.dep-transfer strong { color: var(--text); font-weight: 600; }
+.dep-transfer .t-wait strong { color: var(--warning); }
+
+/* ── Countdown badge ── */
+
+.dep-countdown {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: var(--success-bg);
+  color: var(--success);
+  white-space: nowrap;
+  align-self: center;
+}
+
+.departure.first .dep-countdown { font-size: 14px; padding: 6px 14px; }
+
+.dep-countdown.soon { background: var(--warning-bg); color: var(--warning); }
+.dep-countdown.now  { background: var(--danger-bg);  color: var(--danger);  }
+
+/* ── Empty / error ── */
+
+.empty {
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 12px 0;
+  text-align: center;
+}
+
+.load-error {
+  font-size: 14px;
+  color: var(--danger);
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+/* ── Footer ── */
+
+.footer {
+  margin-top: 1.75rem;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  padding-bottom: 1rem;
+}
+
+.footer a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

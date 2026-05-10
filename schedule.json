@@ -1,0 +1,97 @@
+{
+  "lastUpdated": "2026-05-10",
+  "note": "Rozkład orientacyjny SKM i PR Trójmiasto. Aktualizuj na podstawie skm.pkp.pl i rozklady.pl",
+  "routes": {
+    "oliwa-chylonia-skm": {
+      "from": "Gdańsk Oliwa",
+      "to": "Gdynia Chylonia",
+      "duration": 25,
+      "line": "SKM"
+    },
+    "oliwa-chylonia-pr": {
+      "from": "Gdańsk Oliwa",
+      "to": "Gdynia Chylonia",
+      "duration": 22,
+      "line": "PR"
+    },
+    "przymorze-chylonia": {
+      "from": "Gdańsk Przymorze-Uniwersytet",
+      "to": "Gdynia Chylonia",
+      "duration": 28,
+      "line": "SKM"
+    },
+    "przymorze-zaspa": {
+      "from": "Gdańsk Przymorze-Uniwersytet",
+      "to": "Gdańsk Zaspa",
+      "duration": 3,
+      "line": "SKM"
+    },
+    "zaspa-chylonia-skm": {
+      "from": "Gdańsk Zaspa",
+      "to": "Gdynia Chylonia",
+      "duration": 35,
+      "line": "SKM"
+    },
+    "zaspa-oliwa": {
+      "from": "Gdańsk Zaspa",
+      "to": "Gdańsk Oliwa",
+      "duration": 10,
+      "line": "SKM"
+    },
+    "chylonia-oliwa-skm": {
+      "from": "Gdynia Chylonia",
+      "to": "Gdańsk Oliwa",
+      "duration": 25,
+      "line": "SKM"
+    },
+    "chylonia-oliwa-pr": {
+      "from": "Gdynia Chylonia",
+      "to": "Gdańsk Oliwa",
+      "duration": 22,
+      "line": "PR"
+    }
+  },
+  "intervals": {
+    "skm": {
+      "weekday": [
+        { "from": "04:30", "to": "06:00", "interval": 20 },
+        { "from": "06:00", "to": "07:00", "interval": 12 },
+        { "from": "07:00", "to": "09:00", "interval": 8 },
+        { "from": "09:00", "to": "14:00", "interval": 15 },
+        { "from": "14:00", "to": "15:00", "interval": 12 },
+        { "from": "15:00", "to": "18:00", "interval": 8 },
+        { "from": "18:00", "to": "20:00", "interval": 12 },
+        { "from": "20:00", "to": "22:00", "interval": 20 },
+        { "from": "22:00", "to": "24:00", "interval": 30 }
+      ],
+      "saturday": [
+        { "from": "05:00", "to": "07:00", "interval": 30 },
+        { "from": "07:00", "to": "22:00", "interval": 20 },
+        { "from": "22:00", "to": "24:00", "interval": 30 }
+      ],
+      "sunday": [
+        { "from": "05:00", "to": "07:00", "interval": 30 },
+        { "from": "07:00", "to": "22:00", "interval": 20 },
+        { "from": "22:00", "to": "24:00", "interval": 30 }
+      ]
+    },
+    "pr": {
+      "weekday": [
+        { "from": "05:00", "to": "07:00", "interval": 60 },
+        { "from": "07:00", "to": "09:00", "interval": 30 },
+        { "from": "09:00", "to": "15:00", "interval": 60 },
+        { "from": "15:00", "to": "18:00", "interval": 30 },
+        { "from": "18:00", "to": "20:00", "interval": 60 },
+        { "from": "20:00", "to": "22:00", "interval": 120 }
+      ],
+      "saturday": [
+        { "from": "06:00", "to": "20:00", "interval": 60 },
+        { "from": "20:00", "to": "23:00", "interval": 120 }
+      ],
+      "sunday": [
+        { "from": "07:00", "to": "20:00", "interval": 60 },
+        { "from": "20:00", "to": "22:00", "interval": 120 }
+      ]
+    }
+  }
+}
