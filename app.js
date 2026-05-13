@@ -97,6 +97,27 @@ function findNextMin(intervals, fromMin) {
 function generateDirect(routeKey, intervalKey, dayType, nowMin, count) {
   const route = scheduleData.routes[routeKey];
   if (!route) return [];
+
+  const exact = route.departures?.[dayType];
+  if (exact) {
+    const result = [];
+    for (const t of exact) {
+      if (result.length >= count) break;
+      const m = timeToMinutes(t);
+      if (m > nowMin) {
+        result.push({
+          departureTime:  t,
+          arrivalTime:    minutesToTime(m + route.duration),
+          duration:       route.duration,
+          minutesFromNow: m - nowMin,
+          line:           route.line,
+          transfer:       null,
+        });
+      }
+    }
+    return result;
+  }
+
   const intervals = scheduleData.intervals?.[intervalKey]?.[dayType];
   if (!intervals) return [];
 
