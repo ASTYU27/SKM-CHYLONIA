@@ -333,7 +333,12 @@ function buildRouteCard(config) {
   // Countdown only when viewing today in live mode
   const showCountdown = selectedDayOffset === 0 && manualTime === null;
   const departures    = getCardDepartures(config);
-  const jdUrl = `https://jakdojade.pl/trojmiasto/trasa?fn=${encodeURIComponent(config.from)}&tn=${encodeURIComponent(config.to)}`;
+  const selectedDate = getSelectedDate();
+  const dd   = String(selectedDate.getDate()).padStart(2, '0');
+  const mm   = String(selectedDate.getMonth() + 1).padStart(2, '0');
+  const yyyy = selectedDate.getFullYear();
+  const timeStr = manualTime ?? getLiveTimeStr();
+  const jdUrl = `https://jakdojade.pl/trojmiasto/trasa?fn=${encodeURIComponent(config.from)}&tn=${encodeURIComponent(config.to)}&t=${timeStr}&d=${dd}.${mm}.${yyyy}`;
 
   let departuresHTML;
   if (departures.length === 0) {
